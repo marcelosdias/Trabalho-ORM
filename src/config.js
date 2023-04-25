@@ -7,7 +7,7 @@ const envPath = path.resolve(__dirname, '../.env');
 dotenv.config({ path: envPath });
 
 module.exports = {
-  PORT: process.env.PORT,
+  PORT: process.env.PORT || 3000,
   NODE_ENV: process.env.NODE_ENV || 'development',
   DATABASE_HOST: process.env.HOST,
   DATABASE_SCHEMA: process.env.DATABASE_SCHEMA,

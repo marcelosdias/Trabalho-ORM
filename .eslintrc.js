@@ -13,5 +13,6 @@ module.exports = {
   rules: {
     'import/order': 'off',
     'import/no-extraneous-dependencies': 'off',
+    'class-methods-use-this': 'off',
   },
 };
