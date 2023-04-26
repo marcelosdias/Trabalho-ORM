@@ -1,8 +1,8 @@
 exports.seed = async (knex) => {
   const categories = [
-    { id: 1, name: 'Back-End' },
-    { id: 2, name: 'Front-End' },
-    { id: 3, name: 'Quality Assurance' },
+    { name: 'Back-End' },
+    { name: 'Front-End' },
+    { name: 'Quality Assurance' },
   ];
 
   await knex('categories').del();
