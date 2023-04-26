@@ -4,6 +4,8 @@ const CandidateController = require('../controllers/CandidateController');
 
 const candidateRouter = Router();
 
-candidateRouter.get('/', CandidateController.index);
+candidateRouter.get('/candidates', CandidateController.index);
+candidateRouter.get('/candidates/:id', CandidateController.show);
+candidateRouter.post('/candidates', CandidateController.store);
 
 module.exports = candidateRouter;

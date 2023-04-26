@@ -11,8 +11,27 @@ class Candidate extends visibilityPlugin(Model) {
     return 'id';
   }
 
+  static get hidden() {
+    return 'password';
+  }
+
   static get relationMappings() {
-    return {};
+    const Category = require('./Category');
+
+    return {
+      categories: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Category,
+        join: {
+          from: 'candidates.id',
+          through: {
+            from: 'candidates_categories.candidate_id',
+            to: 'candidates_categories.category_id',
+          },
+          to: 'categories.id',
+        },
+      },
+    };
   }
 }
 
