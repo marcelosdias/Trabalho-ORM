@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/index.js"
+    "start": "nodemon src/index.js",
+    "knex:migrate": "npx knex migrate:latest",
+    "knex:rollback": "npx knex migrate:rollback",
+    "knex:seeds": "npx knex seed:run"
   },
   "keywords": [],
   "author": "",
