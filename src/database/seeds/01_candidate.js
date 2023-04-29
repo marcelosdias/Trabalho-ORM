@@ -1,6 +1,6 @@
 const { v4: uuidV4 } = require('uuid');
 
-const HashService = require('../../helper/HashService');
+const HashService = require('../../helpers/HashService');
 
 exports.seed = async (knex) => {
   const users = [

@@ -6,6 +6,8 @@ class Authentication {
     return expressJwt({ secret: SECREV_ENV, algorithms: ['HS256'] }).unless({
       path: [
         '/candidates/login',
+        '/candidates/register',
+
       ],
     });
   }

@@ -15,11 +15,11 @@ exports.up = (knex) => knex.schema
 
   .createTable('candidates_categories', (table) => {
     table.increments('id').unique().notNullable().primary();
-    table.uuid('candidate_id')
+    table.uuid('candidates_id')
       .references('id')
       .inTable('candidates')
       .onDelete('CASCADE');
-    table.integer('category_id')
+    table.integer('categories_id')
       .references('id')
       .inTable('categories')
       .onDelete('CASCADE');
@@ -39,11 +39,11 @@ exports.up = (knex) => knex.schema
     table.uuid('id').unique().notNullable().primary();
     table.string('title').notNullable();
     table.string('description').notNullable();
-    table.uuid('company_id')
+    table.uuid('companies_id')
       .references('id')
       .inTable('companies')
       .onDelete('CASCADE');
-    table.integer('category_id')
+    table.integer('categories_id')
       .references('id')
       .inTable('categories')
       .onDelete('CASCADE');
@@ -52,11 +52,11 @@ exports.up = (knex) => knex.schema
 
   .createTable('candidates_jobs', (table) => {
     table.increments('id').unique().notNullable().primary();
-    table.uuid('job_id')
+    table.uuid('jobs_id')
       .references('id')
       .inTable('jobs')
       .onDelete('CASCADE');
-    table.uuid('candidate_id')
+    table.uuid('candidates_id')
       .references('id')
       .inTable('candidates')
       .onDelete('CASCADE');

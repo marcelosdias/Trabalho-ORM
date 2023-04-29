@@ -27,7 +27,9 @@ class CandidateController {
       password,
     });
 
-    return response.json(candidate);
+    const token = await AuthService.generateToken({ id: candidate.id });
+
+    return response.json({ candidate, token });
   }
 
   async update(request, response) {
