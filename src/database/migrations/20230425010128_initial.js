@@ -1,9 +1,9 @@
 exports.up = (knex) => knex.schema
   .createTable('candidates', (table) => {
-    table.increments('id').unique().notNullable().primary();
-    table.string('name');
-    table.string('email');
-    table.string('password');
+    table.uuid('id').unique().notNullable().primary();
+    table.string('name').unique().notNullable();
+    table.string('email').unique().notNullable();
+    table.string('password').notNullable();
     table.timestamps(true, true);
   })
 
@@ -15,8 +15,14 @@ exports.up = (knex) => knex.schema
 
   .createTable('candidates_categories', (table) => {
     table.increments('id').unique().notNullable().primary();
-    table.integer('candidate_id');
-    table.integer('category_id');
+    table.uuid('candidate_id')
+      .references('id')
+      .inTable('candidates')
+      .onDelete('CASCADE');
+    table.integer('category_id')
+      .references('id')
+      .inTable('categories')
+      .onDelete('CASCADE');
     table.timestamps(true, true);
   });
 

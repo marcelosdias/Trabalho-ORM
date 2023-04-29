@@ -1,8 +1,14 @@
 const Model = require('./index');
 
-const visibilityPlugin = require('objection-visibility').default;
+const { compose } = require('objection');
 
-class Candidate extends visibilityPlugin(Model) {
+const visibilityPlugin = require('objection-visibility').default;
+const guid = require('objection-guid')();
+const Password = require('objection-password')();
+
+const mixing = compose(visibilityPlugin, Password, guid);
+
+class Candidate extends mixing(Model) {
   static get tableName() {
     return 'candidates';
   }

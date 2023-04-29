@@ -14,4 +14,6 @@ module.exports = {
   DATABASE_USER: process.env.DATABASE_USER,
   DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
   DATABASE_PORT: process.env.DATABASE_PORT,
+  BRCRYPT_SALT: process.env.BRCRYPT_SALT || 10,
+  SECREV_ENV: process.env.SECREV_ENV,
 };
