@@ -12,6 +12,15 @@ class CandidateController {
     const { id } = request.params;
 
     const candidate = await Candidate.query()
+      .findById(id);
+
+    return response.json(candidate);
+  }
+
+  async getCategories(request, response) {
+    const { id } = request.auth;
+
+    const candidate = await Candidate.query()
       .withGraphJoined('categories')
       .findById(id);
 
@@ -55,7 +64,9 @@ class CandidateController {
   }
 
   async relationCategories(request, response) {
-    const { candidateId, categoriesId } = request.body;
+    const { categoriesId } = request.body;
+
+    const { id: candidateId } = request.auth;
 
     const candidate = await Candidate.query().findById(candidateId);
 
@@ -87,7 +98,9 @@ class CandidateController {
   }
 
   async deleteRelationCateoory(request, response) {
-    const { candidateId, categoryId } = request.params;
+    const { categoryId } = request.params;
+
+    const { id: candidateId } = request.auth;
 
     const isDeleted = await Candidate.relatedQuery('categories')
       .for(candidateId)
