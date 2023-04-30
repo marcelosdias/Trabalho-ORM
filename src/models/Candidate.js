@@ -24,6 +24,7 @@ class Candidate extends mixing(Model) {
   static get relationMappings() {
     const Category = require('./Category');
     const Job = require('./Job');
+    const CandidateJob = require('./CandidateJob');
     return {
       categories: {
         relation: Model.ManyToManyRelation,
@@ -47,6 +48,14 @@ class Candidate extends mixing(Model) {
             to: 'candidates_jobs.jobs_id',
           },
           to: 'jobs.id',
+        },
+      },
+      candidateJobs: {
+        relation: Model.HasManyRelation,
+        modelClass: CandidateJob,
+        join: {
+          from: 'candidates.id',
+          to: 'candidates_jobs.candidates_id',
         },
       },
     };

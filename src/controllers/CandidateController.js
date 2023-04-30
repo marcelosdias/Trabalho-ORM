@@ -2,12 +2,14 @@ const Candidate = require('../models/Candidate');
 const AuthService = require('../helpers/AuthService');
 
 class CandidateController {
+  // Listar todos candidatos
   async index(request, response) {
     const candidates = await Candidate.query();
 
     return response.json(candidates);
   }
 
+  // Listar um cadidato pelo id
   async show(request, response) {
     const { id } = request.params;
 
@@ -17,8 +19,9 @@ class CandidateController {
     return response.json(candidate);
   }
 
+  // Listar um candidado pelo id com todas suas categorias de interesse
   async getCategories(request, response) {
-    const { id } = request.auth;
+    const { id } = request.params;
 
     const candidate = await Candidate.query()
       .withGraphJoined('categories')
@@ -27,6 +30,27 @@ class CandidateController {
     return response.json(candidate);
   }
 
+  // Listar todas as vagas do candidato
+  async getJobs(request, response) {
+    const { id } = request.params;
+
+    const candidate = await Candidate.query().withGraphJoined('jobs.[company, category]')
+      .findById(id);
+
+    return response.json(candidate);
+  }
+
+  // Listar todas vagas do candidato com as entrevistas
+  async getInterviews(request, response) {
+    const { id } = request.params;
+
+    const interviews = await Candidate.query().withGraphJoined('candidateJobs.[interviews, job]')
+      .findById(id);
+
+    return response.json(interviews);
+  }
+
+  // Criar candidado
   async store(request, response) {
     const { name, email, password } = request.body;
 
@@ -41,6 +65,7 @@ class CandidateController {
     return response.json({ candidate, token });
   }
 
+  // Atualizar candidato
   async update(request, response) {
     const { name, email, password } = request.body;
 
@@ -53,6 +78,7 @@ class CandidateController {
     return response.json(updatedCandidate);
   }
 
+  // Deletar Candidato
   async delete(request, response) {
     const { id } = request.params;
 
@@ -63,10 +89,9 @@ class CandidateController {
     return response.json({ message: 'Usuário deletado' });
   }
 
+  // Associar um candidado a uma categoria
   async relationCategories(request, response) {
-    const { categoriesId } = request.body;
-
-    const { id: candidateId } = request.auth;
+    const { candidateId, categoriesId } = request.body;
 
     const candidate = await Candidate.query().findById(candidateId);
 
@@ -86,6 +111,10 @@ class CandidateController {
 
     const candidate = await Candidate.query().findOne({ email });
 
+    if (!candidate) {
+      return response.status(403).json({ message: 'Seu e-mail ou senha estão incorretos' });
+    }
+
     const validPassword = await candidate.verifyPassword(password);
 
     if (!validPassword) {
@@ -97,10 +126,9 @@ class CandidateController {
     return response.json({ candidate, token });
   }
 
-  async deleteRelationCateoory(request, response) {
-    const { categoryId } = request.params;
-
-    const { id: candidateId } = request.auth;
+  // Retirar vinculo entre candidato e categoria
+  async deleteRelationCategory(request, response) {
+    const { candidateId, categoryId } = request.params;
 
     const isDeleted = await Candidate.relatedQuery('categories')
       .for(candidateId)
@@ -110,6 +138,17 @@ class CandidateController {
     if (!isDeleted) { return response.status(404).json({ message: 'Relação não encontrada' }); }
 
     return response.json(isDeleted);
+  }
+
+  // Relacionr um candidato a uma vaga
+  async relationJob(request, response) {
+    const { candidatesId, jobsId } = request.body;
+
+    const isCreated = await Candidate.relatedQuery('jobs')
+      .for(candidatesId)
+      .relate(jobsId);
+
+    return response.json(isCreated);
   }
 }
 

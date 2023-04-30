@@ -15,7 +15,7 @@ class Interview extends guid(Model) {
     const CandidateJob = require('./CandidateJob');
 
     return {
-      candidate: {
+      candidateJobs: {
         relation: Model.BelongsToOneRelation,
         modelClass: CandidateJob,
         join: {

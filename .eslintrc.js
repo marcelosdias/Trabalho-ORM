@@ -15,5 +15,6 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'class-methods-use-this': 'off',
     'global-require': 'off',
+    camelcase: 'off',
   },
 };

@@ -60,7 +60,6 @@ exports.up = (knex) => knex.schema
       .references('id')
       .inTable('candidates')
       .onDelete('CASCADE');
-    table.date('date').notNullable();
   })
 
   .createTable('interviews', (table) => {
@@ -69,10 +68,11 @@ exports.up = (knex) => knex.schema
       .references('id')
       .inTable('candidates_jobs')
       .onDelete('CASCADE');
+    table.date('date').notNullable();
   });
 
 exports.down = (knex) => knex.schema
-  .dropTableIfExists('intervies')
+  .dropTableIfExists('interviews')
   .dropTableIfExists('candidates_jobs')
   .dropTableIfExists('jobs')
   .dropTableIfExists('companies')
