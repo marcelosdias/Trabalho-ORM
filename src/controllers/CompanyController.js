@@ -1,13 +1,11 @@
 const Company = require('../models/Company');
 
 class CompanyController {
-  // Listar  empregos de uma empresa
-  async getJobs(request, response) {
-    const { id } = request.params;
+  // Listar todas as empresas
+  async index(request, response) {
+    const companies = await Company.query();
 
-    const companyJobs = await Company.query().withGraphJoined('jobs.[category]').findById(id);
-
-    return response.json(companyJobs);
+    return response.json(companies);
   }
 
   // Criar empresa
@@ -21,6 +19,41 @@ class CompanyController {
     });
 
     return response.json(company);
+  }
+
+  // Atualizar uma empresa
+  async update(request, response) {
+    const {
+      name, email, password, city, address,
+    } = request.body;
+
+    const { id } = request.params;
+
+    const updatedCompany = await Company.query().patchAndFetchById(id, {
+      name, email, password, city, address,
+    });
+
+    return response.json(updatedCompany);
+  }
+
+  // Deletar uma empresa
+  async delete(request, response) {
+    const { id } = request.params;
+
+    const isDeleted = await Company.query().deleteById(id);
+
+    if (!isDeleted) { return response.status(404).json({ message: 'Empresa não encontrado' }); }
+
+    return response.json({ message: 'Empresa deletada' });
+  }
+
+  // Listar  empregos de uma empresa
+  async getJobs(request, response) {
+    const { id } = request.params;
+
+    const companyJobs = await Company.query().withGraphJoined('jobs.[category]').findById(id);
+
+    return response.json(companyJobs);
   }
 
   // Criar uma vaga associada a empresa
