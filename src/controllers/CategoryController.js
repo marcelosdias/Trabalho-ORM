@@ -1,60 +1,57 @@
+const AuthService = require('../helpers/AuthService');
 const Category = require('../models/Category');
 
 class CategoryController {
+  // Listar todas categorias
   async index(request, response) {
     const categories = await Category.query();
 
     return response.json(categories);
   }
 
-  async getById(request, response) {
+  // Listar uma categoria pelo id
+  async show(request, response) {
     const { id } = request.params;
 
-    try {
-      const category = await Category.query().findById(id);
-      if (category) return response.json(category);
-      return response.status(404).json({
-        message: 'Category not found',
-      });
-    } catch (error) {
-      return response.status(500).json({
-        message: 'bad request',
-      });
-    }
-  }
+    const candidate = await Category.query()
+      .findById(id);
 
-  async create(request, response) {
+    return response.json(candidate);
+  }
+  // Criar categoria
+  async store(request, response) {
     const { name } = request.body;
 
-    try {
-      const category = await Category.query().insert({
-        name,
-      });
-      return response.json(category);
-    } catch (error) {
-      return response.status(500).json({
-        message: 'bad request',
-      });
-    }
+    const category = await Category.query().insert({
+      name,
+    });
+
+
+    return response.json({ category });
   }
 
+  // Atualizar categoria
+  async update(request, response) {
+    const { name } = request.body;
+
+    const { id } = request.params;
+
+    const updatedCategory = await Category.query().patchAndFetchById(id, {
+      name
+    });
+
+    return response.json(updatedCategory);
+  }
+
+  // Deletar categoria
   async delete(request, response) {
     const { id } = request.params;
 
-    try {
-      const isDeleted = await Category.query().deleteById(id);
+    const isDeleted = await Category.query().deleteById(id);
 
-      if (!isDeleted) {
-        return response.status(404).json({
-          message: 'Category not found',
-        });
-      }
-      return response.status(200).json({ message: 'Category deleted' });
-    } catch (error) {
-      return response.status(500).json({
-        message: 'bad request',
-      });
-    }
+    if (!isDeleted) { return response.status(404).json({ message: 'Categoria não encontrada' }); }
+
+    return response.json({ message: 'Categoria deletada' });
   }
 }
 
