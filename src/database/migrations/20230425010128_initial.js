@@ -46,7 +46,6 @@ exports.up = (knex) => knex.schema
     table.integer('categories_id')
       .references('id')
       .inTable('categories')
-      .onDelete('CASCADE');
     table.timestamps(true, true);
   })
 
@@ -69,6 +68,7 @@ exports.up = (knex) => knex.schema
       .inTable('candidates_jobs')
       .onDelete('CASCADE');
     table.date('date').notNullable();
+    table.string('status').notNullable();
   });
 
 exports.down = (knex) => knex.schema

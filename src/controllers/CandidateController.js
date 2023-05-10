@@ -133,14 +133,28 @@ class CandidateController {
     const isDeleted = await Candidate.relatedQuery('categories')
       .for(candidateId)
       .unrelate()
-      .where({ category_id: categoryId });
+      .where({ categories_id: categoryId });
 
     if (!isDeleted) { return response.status(404).json({ message: 'Relação não encontrada' }); }
 
     return response.json(isDeleted);
   }
 
-  // Relacionr um candidato a uma vaga
+    // Retirar vinculo entre candidato e vaga
+  async deleteRelationJob(request, response) {
+    const { candidateId, jobId } = request.params;
+
+    const isDeleted = await Candidate.relatedQuery('jobs')
+      .for(candidateId)
+      .unrelate()
+      .where({ jobs_id: jobId });
+
+    if (!isDeleted) { return response.status(404).json({ message: 'Relação não encontrada' }); }
+
+    return response.json(isDeleted);
+  }
+
+  // Relacionar um candidato a uma vaga
   async relationJob(request, response) {
     const { candidatesId, jobsId } = request.body;
 

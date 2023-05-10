@@ -7,7 +7,15 @@ class CompanyController {
 
     return response.json(companies);
   }
+  // Listar uma categoria pelo id
+  async show(request, response) {
+    const { id } = request.params;
 
+    const company = await Company.query()
+      .findById(id);
+
+    return response.json(company);
+  }
   // Criar empresa
   async store(request, response) {
     const {
@@ -62,11 +70,11 @@ class CompanyController {
       title, description, companyId, categorieId,
     } = request.body;
 
-    const teste = await Company.relatedQuery('jobs')
+    const job = await Company.relatedQuery('jobs')
       .for(companyId)
       .insert({ title, description, categories_id: categorieId });
 
-    return response.json(teste);
+    return response.json(job);
   }
 }
 

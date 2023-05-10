@@ -18,5 +18,6 @@ candidateRouter.put('/candidates/:id', CandidateController.update);
 
 candidateRouter.delete('/candidates/:id', CandidateController.delete);
 candidateRouter.delete('/candidates/:id/categories/:id', CandidateController.deleteRelationCategory);
+candidateRouter.delete('/candidates/:id/jobs/:id', CandidateController.deleteRelationJob);
 
 module.exports = candidateRouter;
