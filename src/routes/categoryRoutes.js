@@ -4,12 +4,12 @@ const CategoryController = require('../controllers/CategoryController')
 
 const categoryRouter = Router();
 
-categoryRouter.get('/candidates', CategoryController.index);
-categoryRouter.get('/candidates/:id', CategoryController.show);
+categoryRouter.get('/category', CategoryController.index);
+categoryRouter.get('/category/:id', CategoryController.show);
 
 categoryRouter.post('/category', CategoryController.store);
 
-categoryRouter.put('/candidates/:id', CategoryController.update);
+categoryRouter.put('/category/:id', CategoryController.update);
 
 categoryRouter.delete('/category/:id', CategoryController.delete);
 
