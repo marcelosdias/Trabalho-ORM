@@ -1,4 +1,3 @@
-const AuthService = require('../helpers/AuthService');
 const Category = require('../models/Category');
 
 class CategoryController {
